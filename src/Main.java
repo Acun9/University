@@ -1,3 +1,24 @@
+
+// Comparator
+// Read-only
+// Snapshot
+// Exceptions
+// Lambda functions && funtional interfaces
+// Stream API
+
+// Generic Classes, Types, Methods
+// Packaging(entity(concrete, interfaces, enums etc), utils, console)
+// Testing
+
+// service
+// repository
+// entity/model
+
+// MVC-> Model View Controller
+// MVVM ->
+
+import java.util.Set;
+
 public class Main {
     public static void main(String[] args){
 
@@ -9,21 +30,63 @@ public class Main {
         University workintechUniversity = University.getInstance();
 
         Faculty engineering = new Faculty(1L, "Engineering", workintechUniversity);
-        Faculty architecture = new Faculty(2L, "Architecture", workintechUniversity);
+        Faculty architectureFaculty = new Faculty(2L, "Architecture", workintechUniversity);
+
+        workintechUniversity.addFaculty(engineering);
+
+        // Liskov
+        // Department softwareEngineering = new SoftwareEngineering(1L, engineering);
+        SoftwareEngineering softwareEngineering = new SoftwareEngineering(1L, engineering);
+        ComputerEngineering computerEngineering = new ComputerEngineering(2L, engineering);
+        IndustrialEngineering industrialEngineering = new IndustrialEngineering(3L, engineering);
+
+        Architecture architecture = new Architecture(4L, architectureFaculty);
+        LandscapeArchitecture landscapeArchitecture = new LandscapeArchitecture(5L, architectureFaculty);
+
+        engineering.addDepartment(softwareEngineering);
+        engineering.addDepartment(computerEngineering);
+
+        Set<Department> departmentSnapshotView = workintechUniversity.getFaculties().get(0).getDepartmentsSnapshotView();
+        Set<Department> departmentSnapshot = workintechUniversity.getFaculties().get(0).getDepartmentsSnapshot();
+        Set<Department> departmentView = workintechUniversity.getFaculties().get(0).getDepartments();
+
+        System.out.println("View : " + departmentView);
+        System.out.println("Snapshot : " + departmentSnapshot);
+        System.out.println("Snapshot View : " + departmentSnapshotView);
+
+        engineering.addDepartment(industrialEngineering);
+
+        System.out.println("*************************************");
+
+        System.out.println("Ekledikten sonra View : " + departmentView);
+        System.out.println("Ekledikten sonra Snapshot : " + departmentSnapshot);
+        System.out.println("Ekledikten sonra Snapshot View : " + departmentSnapshotView);
+
+
+        //architectureFaculty.addDepartment(architecture);
+        //architectureFaculty.addDepartment(landscapeArchitecture);
         // university.getFaculties().add(faculty);
 
         //ozyeginUniversity.addFaculty(engineering);
 
-        workintechUniversity.addFaculty(engineering);
-        workintechUniversity.addFaculty(architecture);
 
-        System.out.println(workintechUniversity);
+        workintechUniversity.addFaculty(architectureFaculty);
+
+        /*System.out.println(workintechUniversity);
         System.out.println("*******************Faculties******************");
 
         for(Faculty faculty: workintechUniversity.getFaculties()){
 
             System.out.println("       " + faculty);
-        }
+
+            System.out.println("*******************Departments******************");
+
+            for(Department department : faculty.getDepartments()){
+
+                System.out.println("       " + department);
+            }
+            System.out.println("*************************************");
+        }*/
         /*try {
 
             //university.setName(null);
@@ -63,11 +126,11 @@ Her departman bu metodu farklı şekillerde @Override etmelidir.
 
 - Departmanların altında Dersler tanımlanmalıdır. Bir departmanda pek çok ders okutulabilir. Ancak her ders tek bir departmana ait olmalıdır.
 
-        - entity.concrete.Course isminde bir sınıf tanımlayın içerisinde(id, name, gpa) değerleri olmalıdır. Departman ile ilişkisini tanımlayın.
+        - Course isminde bir sınıf tanımlayın içerisinde(id, name, gpa) değerleri olmalıdır. Departman ile ilişkisini tanımlayın.
 
         - Bu ilişki tanımlandıktan sonra Departman sınıfı extends etmiş sınıflarda 'lessonToLearn' metodunu entity.concrete.Course tipinde objeleri tutacak şekilde güncelleyiniz.
 
-        - entity.Instructor ve entity.concrete.Course ilişkisini tanımlamak için entity.Instructor adında bir sınıf daha oluşturun ve ikisi arasındaki ilişkiyi tanımlayınız. Bir entity.Instructor pek çok ders verebilir.
+        - Instructor ve Course ilişkisini tanımlamak için Instructor adında bir sınıf daha oluşturun ve ikisi arasındaki ilişkiyi tanımlayınız. Bir entity.Instructor pek çok ders verebilir.
 Bir ders pek çok hoca tarafından verilebilir.
         entity.Instructor sınıfında(id, firstName, lastName, salary, hasMsc, hasPhd) değişkenleri tanımlı olmalıdır.
 
